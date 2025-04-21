@@ -259,9 +259,9 @@ def update_json_colors(json_file=None):
     if updated:
         with open(json_file, "w") as file:
             json.dump(data, file, indent=4)
-        print(f"✅ Fichier {json_file} mis à jour avec les couleurs des objets sélectionnés.")
+        print(f" Fichier {json_file} mis à jour avec les couleurs des objets sélectionnés.")
     else:
-        print("⚠️ Aucun objet correspondant trouvé dans le JSON, aucun changement effectué.")
+        print(" Aucun objet correspondant trouvé dans le JSON, aucun changement effectué.")
 
 
 

@@ -10,14 +10,14 @@ Bonne lecture, et n’hésitez pas à utiliser mes programmes ou à vous inspire
 
 
 #Sommaire :
-- JsonToMaya
+- JsonToMaya :
   Permet d'enregistrer des objets dans un fichier JSON, puis de recréer les formes sélectionnées à partir de ce fichier.
 
-- ChangeColor
+- ChangeColor :
   Permet de changer la couleur des curves sélectionnées.
 
-- NameSideChange
+- NameSideChange : 
   Je suis une norme de nommage pour les objets, ce qui me permet de renommer rapidement les objets selon leur côté (gauche/droite, etc.).
 
-- SquashStretch_Test
+- SquashStretch_Test :
   Un programme de test qui met en place un système de Squash and Stretch.

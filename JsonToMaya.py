@@ -220,10 +220,59 @@ def enregistrer(file):
 
 
 
+def get_shape_override_color(obj):
+    """Récupère la couleur du premier shape node avec override activé."""
+    shapes = cmds.listRelatives(obj, shapes=True, fullPath=True) or []
+    
+    for shape in shapes:
+        override_enabled = cmds.getAttr(f"{shape}.overrideEnabled")
+        if override_enabled:
+            return cmds.getAttr(f"{shape}.overrideColor")  # Retourne la couleur de l’override
+
+    return None  # Retourne None si aucun shape valide n’a été trouvé
+
+def update_json_colors(json_file=None):
+    """Met à jour les couleurs des objets JSON avec celles des objets sélectionnés dans Maya."""
+    with open(json_file, "r") as file:
+        data = json.load(file)
+
+    selected_objs = cmds.ls(selection=True, long=True)  # Récupère les objets sélectionnés avec chemin complet
+    if not selected_objs:
+        cmds.warning("Aucun objet sélectionné !")
+        return
+
+    name_to_color = {}  # Stocke les couleurs des objets sélectionnés
+    for obj in selected_objs:
+        color = get_shape_override_color(obj)
+        short_name = obj.split("|")[-1]  # Récupère juste le nom sans le chemin complet
+        if color is not None:
+            name_to_color[short_name] = color
+
+    updated = False
+    for obj in data:
+        obj_name = obj["name"]
+        if obj_name in name_to_color:
+            print(f"🔹 Mise à jour : {obj_name} → Couleur {name_to_color[obj_name]}")  # DEBUG
+            obj["color"] = name_to_color[obj_name]
+            updated = True
+
+    if updated:
+        with open(json_file, "w") as file:
+            json.dump(data, file, indent=4)
+        print(f"✅ Fichier {json_file} mis à jour avec les couleurs des objets sélectionnés.")
+    else:
+        print("⚠️ Aucun objet correspondant trouvé dans le JSON, aucun changement effectué.")
+
+
+
+
+
+
 
 #Test fonction 
 #obj1 = C_Curve("Circle", "MyCircle", [0, 0, 0], [0, 0, 0], [1, 0, 0])  # Rouge
 #obj2 = C_Curve("CubL", "MyCube", [5, 0, 0], [0, 45, 0], [0, 1, 0])  # Vert
 #obj3 = C_Curve("SphL", "MySphere", [-5, 0, 0], [0, 0, 45], [0, 0, 1])  # Bleu
+#update_json_colors()
 
 
